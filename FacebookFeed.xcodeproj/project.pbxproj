@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		842682441E62E1080098955A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842682431E62E1080098955A /* AppDelegate.swift */; };
 		842682461E62E1080098955A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842682451E62E1080098955A /* ViewController.swift */; };
-		842682491E62E1080098955A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 842682471E62E1080098955A /* Main.storyboard */; };
 		8426824B1E62E1080098955A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8426824A1E62E1080098955A /* Assets.xcassets */; };
 		8426824E1E62E1080098955A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8426824C1E62E1080098955A /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -18,7 +17,6 @@
 		842682401E62E1080098955A /* FacebookFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FacebookFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		842682431E62E1080098955A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		842682451E62E1080098955A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		842682481E62E1080098955A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8426824A1E62E1080098955A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8426824D1E62E1080098955A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8426824F1E62E1080098955A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -56,7 +54,6 @@
 			children = (
 				842682431E62E1080098955A /* AppDelegate.swift */,
 				842682451E62E1080098955A /* ViewController.swift */,
-				842682471E62E1080098955A /* Main.storyboard */,
 				8426824A1E62E1080098955A /* Assets.xcassets */,
 				8426824C1E62E1080098955A /* LaunchScreen.storyboard */,
 				8426824F1E62E1080098955A /* Info.plist */,
@@ -126,7 +123,6 @@
 			files = (
 				8426824E1E62E1080098955A /* LaunchScreen.storyboard in Resources */,
 				8426824B1E62E1080098955A /* Assets.xcassets in Resources */,
-				842682491E62E1080098955A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,14 +141,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		842682471E62E1080098955A /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				842682481E62E1080098955A /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		8426824C1E62E1080098955A /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -261,6 +249,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = FWHF624C4H;
 				INFOPLIST_FILE = FacebookFeed/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rusel95.FacebookFeed;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -274,6 +263,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = FWHF624C4H;
 				INFOPLIST_FILE = FacebookFeed/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rusel95.FacebookFeed;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -300,6 +290,7 @@
 				842682541E62E1080098955A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
