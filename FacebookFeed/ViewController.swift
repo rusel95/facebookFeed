@@ -10,11 +10,50 @@ import UIKit
 
 let cellID = "cellID"
 
-class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class Post {
+    var name: String?
+    var statusText: String?
+    var profileImageName: String?
+    var statusImageName: String?
+    var numLikes: Int?
+    var numComments: Int?
+}
 
+class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+    
+    var posts = [Post]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        let postMark = Post()
+        postMark.name = "Mark Zuckerberg"
+        postMark.profileImageName = "zuckprofile"
+        postMark.statusText = "Meanwhile, beast turn to the other side"
+        postMark.statusImageName = "zuckdog"
+        postMark.numLikes = 400
+        postMark.numComments = 123
+        
+        let postSteve = Post()
+        postSteve.name = "Steve Jobs"
+        postSteve.profileImageName = "steve_profile"
+        postSteve.statusText = "So Steve Jobs was a founder of an Apple company, and I am learning a Swift just because of him right now. That is why, I suppose to think, that everything is going to be OK"
+        postSteve.statusImageName = "steve_presentation"
+        postSteve.numLikes = 1000
+        postSteve.numComments = 55
+        
+        let postMe = Post()
+        postMe.name = "Me"
+        postMe.statusText = "So, one of my the most needed things to do is to have this bike by my own. Honda CBR 250 rr 2017"
+        postMe.profileImageName = "me"
+        postMe.statusImageName = "honda"
+        postMe.numLikes = 5000
+        postMe.numComments = 500
+        
+        posts.append(postMark)
+        posts.append(postSteve)
+        posts.append(postMe)
         
         navigationItem.title = "Facebook Feed"
         
@@ -24,17 +63,29 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
         
         collectionView?.alwaysBounceVertical = true
     }
-
+    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return posts.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
+        let feedCell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! FeedCell
+        feedCell.post = posts[indexPath.item]
+        
+        return feedCell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: 400)
+        
+        if let statusText = posts[indexPath.item].statusText {
+            let rect = NSString(string: statusText).boundingRect(with: CGSize(width: view.frame.width, height: 1000) , options: NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin), attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14)], context: nil)
+            
+            let knownHeight: CGFloat = 8+44+4+4+200+8+24+8+44
+            
+            return CGSize(width: view.frame.width, height: rect.height + knownHeight + 36)
+        }
+        
+        return CGSize(width: view.frame.width, height: 500)
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -46,6 +97,52 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
 }
 
 class FeedCell : UICollectionViewCell {
+    
+    var post: Post? {
+        didSet {
+            
+            if let name = post?.name {
+                let attributedText = NSMutableAttributedString(string: name, attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 14)])
+                attributedText.append(NSAttributedString(string: "\nDecember 18 * San Francisco * ", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 12), NSForegroundColorAttributeName: UIColor.rgb(red: 155, green: 161, blue: 161) ]))
+                
+                let paragraphStyle = NSMutableParagraphStyle()
+                paragraphStyle.lineSpacing = 4
+                
+                attributedText.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, attributedText.string.characters.count))
+                
+                nameLabel.font = UIFont.boldSystemFont(ofSize: 14)
+                nameLabel.translatesAutoresizingMaskIntoConstraints = false
+                
+                let attachment = NSTextAttachment()
+                attachment.image = UIImage(named: "globe_small")
+                attachment.bounds = CGRect(x: 0, y: -2, width: 12, height: 12)
+                attributedText.append(NSAttributedString(attachment: attachment))
+                
+                nameLabel.attributedText = attributedText
+            }
+            
+            if let statusText = post?.statusText {
+                statusTextView.text = statusText
+            }
+            
+            if let profileImageName = post?.profileImageName {
+                profileImageView.image = UIImage(named: profileImageName)
+            }
+            
+            if let statusImageName = post?.statusImageName {
+                statusImageView.image = UIImage(named: statusImageName)
+            }
+            
+            if let numLikes = post?.numLikes {
+                likesCommentsLabel.text = "\(numLikes)  Likes     "
+            }
+            
+            if let numComments = post?.numComments {
+                likesCommentsLabel.text = likesCommentsLabel.text! + "\(numComments) Comments"
+            }
+            
+        }
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -61,23 +158,7 @@ class FeedCell : UICollectionViewCell {
         let label = UILabel()
         label.numberOfLines = 2
         
-        let attributedText = NSMutableAttributedString(string: "Mark Zuckerberg", attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 14)])
-        attributedText.append(NSAttributedString(string: "\nDecember 18 * San Francisco * ", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 12), NSForegroundColorAttributeName: UIColor.rgb(red: 155, green: 161, blue: 161) ]))
-    
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 4
         
-        attributedText.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, attributedText.string.characters.count))
-        
-        label.font = UIFont.boldSystemFont(ofSize: 14)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
-        let attachment = NSTextAttachment()
-        attachment.image = UIImage(named: "globe_small")
-        attachment.bounds = CGRect(x: 0, y: -2, width: 12, height: 12)
-        attributedText.append(NSAttributedString(attachment: attachment))
-        
-        label.attributedText = attributedText
         
         return label
     } ()
@@ -95,6 +176,7 @@ class FeedCell : UICollectionViewCell {
         let textView = UITextView()
         textView.text = "MeanWhile, beast turned to the dark side."
         textView.font = UIFont.systemFont(ofSize: 14)
+        textView.isScrollEnabled = false
         return textView
     } ()
     
@@ -107,7 +189,7 @@ class FeedCell : UICollectionViewCell {
     } ()
     
     let likesCommentsLabel: UILabel = {
-            let label = UILabel()
+        let label = UILabel()
         label.text = "488 Likes   10.7K Comments"
         label.font = UIFont.systemFont(ofSize: 12)
         label.textColor = UIColor.rgb(red: 155, green: 161, blue: 171)
@@ -135,7 +217,7 @@ class FeedCell : UICollectionViewCell {
         
         return button
     }
-
+    
     func setupViews() {
         backgroundColor = UIColor.white
         
@@ -152,12 +234,12 @@ class FeedCell : UICollectionViewCell {
         
         addConstraintsWithFormat(format: "H:|-8-[v0(44)]-8-[v1]|", views: profileImageView, nameLabel)
         
-        addConstraintsWithFormat(format: "V:|-8-[v0(44)]-4-[v1(30)]-4-[v2]-8-[v3(24)]-8-[v4(0.4)][v5(44)]|", views: profileImageView, statusTextView, statusImageView, likesCommentsLabel, dividerLineView, likeButton)
+        addConstraintsWithFormat(format: "V:|-8-[v0(44)]-4-[v1]-4-[v2(200)]-8-[v3(24)]-8-[v4(0.4)][v5(44)]|", views: profileImageView, statusTextView, statusImageView, likesCommentsLabel, dividerLineView, likeButton)
         
         addConstraintsWithFormat(format: "V:|-12-[v0]", views: nameLabel)
         
         addConstraintsWithFormat(format: "H:|-4-[v0]-4-|", views: statusTextView)
-
+        
         addConstraintsWithFormat(format: "H:|-12-[v0]|", views: likesCommentsLabel)
         
         addConstraintsWithFormat(format: "H:|[v0]|", views: statusImageView)
